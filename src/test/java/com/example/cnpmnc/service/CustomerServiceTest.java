@@ -23,6 +23,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
@@ -60,21 +64,25 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Test lấy tất cả khách hàng thành công")
+    @DisplayName("Test lấy tất cả khách hàng thành công với phân trang")
     void testGetAllCustomers_Success() {
         // Given
         List<Customer> customers = Arrays.asList(testCustomer);
-        when(customerRepository.findByDeletedAtIsNull()).thenReturn(customers);
+        Page<Customer> page = new PageImpl<>(customers, PageRequest.of(0, 10), 1);
+        Pageable pageable = PageRequest.of(0, 10);
+        when(customerRepository.findByDeletedAtIsNull(pageable)).thenReturn(page);
 
         // When
-        List<CustomerResponse> result = customerService.getAllCustomers();
+        Page<CustomerResponse> result = customerService.getAllCustomers(pageable);
 
         // Then
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).isEqualTo("Test Customer");
-        assertThat(result.get(0).getEmail()).isEqualTo("test@example.com");
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getName()).isEqualTo("Test Customer");
+        assertThat(result.getContent().get(0).getEmail()).isEqualTo("test@example.com");
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getTotalPages()).isEqualTo(1);
         
-        verify(customerRepository, times(1)).findByDeletedAtIsNull();
+        verify(customerRepository, times(1)).findByDeletedAtIsNull(pageable);
     }
 
     @Test

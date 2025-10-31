@@ -5,6 +5,8 @@ import com.example.cnpmnc.dto.CustomerResponse;
 import com.example.cnpmnc.entity.Customer;
 import com.example.cnpmnc.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +20,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     // Lấy tất cả khách hàng
-    public List<CustomerResponse> getAllCustomers() {
-        return customerRepository.findByDeletedAtIsNull()
-                .stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public Page<CustomerResponse> getAllCustomers(Pageable pageable) {
+        return customerRepository.findByDeletedAtIsNull(pageable)
+                .map(this::mapToResponse);
     }
 
     // Lấy khách hàng theo ID

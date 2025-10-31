@@ -24,6 +24,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 @WebMvcTest(CustomerController.class)
 class CustomerControllerTest {
@@ -64,24 +67,32 @@ class CustomerControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/customers - Lấy danh sách khách hàng")
+    @DisplayName("GET /api/customers - Lấy danh sách khách hàng với phân trang")
     void testGetAllCustomers() throws Exception {
         // Given
         List<CustomerResponse> customers = Arrays.asList(testResponse);
-        when(customerService.getAllCustomers()).thenReturn(customers);
+        Page<CustomerResponse> page = new PageImpl<>(customers, PageRequest.of(0, 10), 1);
+        when(customerService.getAllCustomers(any())).thenReturn(page);
 
         // When & Then
-        mockMvc.perform(get("/api/customers"))
+        mockMvc.perform(get("/api/customers")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortBy", "createdAt")
+                        .param("sortDir", "desc"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is("Lấy danh sách khách hàng thành công")))
-                .andExpect(jsonPath("$.data", hasSize(1)))
-                .andExpect(jsonPath("$.data[0].name", is("Test Customer")))
-                .andExpect(jsonPath("$.data[0].email", is("test@example.com")));
+                .andExpect(jsonPath("$.data.content", hasSize(1)))
+                .andExpect(jsonPath("$.data.content[0].name", is("Test Customer")))
+                .andExpect(jsonPath("$.data.content[0].email", is("test@example.com")))
+                .andExpect(jsonPath("$.data.totalElements", is(1)))
+                .andExpect(jsonPath("$.data.totalPages", is(1)))
+                .andExpect(jsonPath("$.data.number", is(0)));
 
-        verify(customerService, times(1)).getAllCustomers();
+        verify(customerService, times(1)).getAllCustomers(any());
     }
 
     @Test

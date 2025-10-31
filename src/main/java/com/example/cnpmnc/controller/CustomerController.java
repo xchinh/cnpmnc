@@ -6,6 +6,10 @@ import com.example.cnpmnc.dto.CustomerResponse;
 import com.example.cnpmnc.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +28,20 @@ public class CustomerController {
      * Lấy danh sách tất cả khách hàng
      */
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CustomerResponse>>> getAllCustomers() {
+    public ResponseEntity<ApiResponse<Page<CustomerResponse>>> getAllCustomers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "createdAt") String sortBy,
+        @RequestParam(defaultValue = "desc") String sortDir
+    ) {
         try {
-            List<CustomerResponse> customers = customerService.getAllCustomers();
+            Sort sort = sortDir.equalsIgnoreCase("asc") 
+                ? Sort.by(sortBy).ascending() 
+                : Sort.by(sortBy).descending();
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+            Page<CustomerResponse> customers = customerService.getAllCustomers(pageable);
+
             return ResponseEntity.ok(
                     ApiResponse.success("Lấy danh sách khách hàng thành công", customers)
             );

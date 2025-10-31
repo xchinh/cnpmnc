@@ -1,6 +1,8 @@
 package com.example.cnpmnc.repository;
 
 import com.example.cnpmnc.entity.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByDeletedAtIsNull();
+    Page<Customer> findByDeletedAtIsNull(Pageable pageable); // Thêm method này
     Optional<Customer> findByIdAndDeletedAtIsNull(Long id);
     List<Customer> findByTeamIdAndDeletedAtIsNull(Long teamId);
 
