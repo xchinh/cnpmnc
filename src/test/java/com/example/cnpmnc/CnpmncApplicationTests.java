@@ -8,7 +8,7 @@ class CnpmncApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("Running tests...")!;
+		System.out.println("Running tests...");
 	}
 
 }
