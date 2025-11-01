@@ -32,7 +32,7 @@ public class User {
     private String passwordHash;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
