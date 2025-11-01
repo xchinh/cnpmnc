@@ -4,14 +4,12 @@ import com.example.cnpmnc.dto.request.user.LoginRequest;
 import com.example.cnpmnc.dto.request.user.RegisterRequest;
 import com.example.cnpmnc.dto.response.ApiResponse;
 import com.example.cnpmnc.dto.response.access.LoginResponse;
+import com.example.cnpmnc.exception.BadRequestException;
 import com.example.cnpmnc.services.impl.AccessService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -44,4 +42,17 @@ public class AccessController {
                 ))
                 .build();
     }
+
+    @PostMapping("logout")
+    public ApiResponse<?> logout() {
+//        if(authHeader == null || !authHeader.startsWith("Bearer")) {
+//            throw new BadRequestException("Invalid request");
+//        }
+        return ApiResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Logout successful")
+                .code("1001")
+                .build();
+    }
+
 }

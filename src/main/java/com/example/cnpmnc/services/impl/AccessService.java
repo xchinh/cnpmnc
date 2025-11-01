@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -39,8 +41,16 @@ public class AccessService implements IAccessService {
             throw new UnauthorizedException("Invalid password");
         }
 
-        String accessToken = jwtService.generateAccessToken(findUser.getId(), findUser.getEmail(), findUser.getRole());
-        String refreshToken = jwtService.generateRefreshToken(findUser.getId(), findUser.getEmail(), findUser.getRole());
+        String accessToken = jwtService.generateAccessToken(Map.of(
+                "userId", findUser.getId(),
+                "email", findUser.getEmail(),
+                "role", findUser.getRole())
+        );
+        String refreshToken = jwtService.generateRefreshToken(Map.of(
+                "userId", findUser.getId(),
+                "email", findUser.getEmail(),
+                "role", findUser.getRole())
+        );
 
         return userMapper.toLoginResponse(findUser, accessToken, refreshToken);
     }

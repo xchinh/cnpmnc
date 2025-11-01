@@ -24,26 +24,24 @@ public class JwtService implements IJwtService {
     @Value("${spring.security.oauth2.resource-server.jwt.refresh-expiration}")
     private long refreshTokenExpiration;
 
-    public String generateAccessToken(Long userId, String email, UserRole roles) {
-        return generateToken(userId, email, roles, accessTokenExpiration);
+    public String generateAccessToken(Map<String, Object> claims) {
+        return generateToken(claims, accessTokenExpiration);
     }
 
-    public String generateRefreshToken(Long userId, String email, UserRole roles) {
-        return generateToken(userId, email, roles, refreshTokenExpiration);
+    public String generateRefreshToken(Map<String, Object> claims) {
+        return generateToken(claims, refreshTokenExpiration);
     }
 
-    private String generateToken(Long userId, String email, UserRole roles, long expirationMillis) {
+    private String generateToken(Map<String, Object> claims, long expirationMillis) {
         try {
-            JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                    .subject(String.valueOf(userId))
-                    .claim("email", email)
-                    .claim("roles", roles)
+            JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                    .claim("payload", claims)
                     .issueTime(new Date())
                     .expirationTime(new Date(System.currentTimeMillis() + expirationMillis))
                     .build();
 
             JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
-            SignedJWT signedJWT = new SignedJWT(header, claims);
+            SignedJWT signedJWT = new SignedJWT(header, claimsSet);
             signedJWT.sign(new MACSigner(secretKey.getBytes()));
 
             return signedJWT.serialize();
