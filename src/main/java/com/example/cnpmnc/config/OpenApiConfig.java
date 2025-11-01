@@ -23,7 +23,7 @@ public class OpenApiConfig {
                                 .name("Dev Team")
                                 .email("dev@crm.com")))
                 .servers(List.of(
-                        new Server().url("http://localhost:8080").description("Local Server"),
+                        new Server().url("http://localhost:8080/api/v1").description("Local Server"),
                         new Server().url("https://api.crm.com").description("Production Server")
                 ));
     }

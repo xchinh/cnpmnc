@@ -25,3 +25,14 @@ spring:
           secret: ${SECRET_KEY}
           expiration: 900000      # 15 mins
           refresh-expiration: 604800000 # 7 days
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  packages-to-scan: com.example.cnpmnc.controller
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
