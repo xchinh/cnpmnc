@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 
 @RestController
@@ -79,7 +81,6 @@ public class CustomerController {
     public ResponseEntity<ApiResponse<CustomerResponse>> createCustomer(
             @Valid @RequestBody CustomerRequest request) {
         try {
-            // TODO: Lấy user ID từ authentication context
             Long currentUserId = 1L; // Tạm thời hardcode
 
             CustomerResponse customer = customerService.createCustomer(request, currentUserId);
@@ -137,14 +138,31 @@ public class CustomerController {
     }
 
     /**
-     * GET /api/customers/search?keyword=abc
-     * Tìm kiếm khách hàng
+     * GET /api/customers/search?q=keyword
+     * Tìm kiếm khách hàng theo tên, email hoặc công ty
+     * Hỗ trợ cả param 'q' và 'keyword' (backward compatible)
      */
+    @Operation(
+        summary = "Search customers",
+        description = "Search customers by name, email, or company name. Supports both 'q' and 'keyword' parameters."
+    )
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<CustomerResponse>>> searchCustomers(
-            @RequestParam String keyword) {
+            @Parameter(description = "Search keyword for name/email/company") 
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) String keyword) {
         try {
-            List<CustomerResponse> customers = customerService.searchCustomers(keyword);
+            // Support both 'q' and 'keyword' parameters for backward compatibility
+            String searchTerm = (q != null && !q.trim().isEmpty()) ? q.trim() :
+                               (keyword != null && !keyword.trim().isEmpty()) ? keyword.trim() : null;
+
+            // Validation: keyword is required
+            if (searchTerm == null) {
+                return ResponseEntity.badRequest()
+                        .body(ApiResponse.error("Search keyword is required"));
+            }
+
+            List<CustomerResponse> customers = customerService.searchCustomers(searchTerm);
             return ResponseEntity.ok(
                     ApiResponse.success("Tìm kiếm thành công", customers)
             );
