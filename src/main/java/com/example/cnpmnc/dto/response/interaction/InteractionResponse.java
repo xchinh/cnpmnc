@@ -21,7 +21,7 @@ public class InteractionResponse {
     Long customerId;
     InteractionType type;
     String description;
-    LocalDateTime date;
+    LocalDateTime interactionDate;
     Long userId;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

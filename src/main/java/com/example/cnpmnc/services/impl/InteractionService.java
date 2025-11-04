@@ -65,12 +65,9 @@ public class InteractionService implements IInteractionService {
     public InteractionResponse createInteraction(Long customerId, CreateInteractionRequest request) {
         Long currentUserId = AuthUtils.getCurrentUserId();
         
-        Interaction interaction = new Interaction();
+        Interaction interaction = interactionMapper.toInteraction(request);
         interaction.setCustomerId(customerId);
         interaction.setUserId(currentUserId);
-        interaction.setType(request.getType());
-        interaction.setDescription(request.getDescription());
-        interaction.setInteractionDate(request.getDate());
         
         Interaction saved = interactionRepository.save(interaction);
         

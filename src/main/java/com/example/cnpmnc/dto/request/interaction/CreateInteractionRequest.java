@@ -24,5 +24,5 @@ public class CreateInteractionRequest {
     String description;
     
     @NotNull(message = "Interaction date is required")
-    LocalDateTime date;
+    LocalDateTime interactionDate;
 }

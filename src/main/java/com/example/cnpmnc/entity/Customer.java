@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
     @Index(name = "idx_customers_team_id", columnList = "team_id"),
     @Index(name = "idx_customers_created_by", columnList = "created_by"),
     @Index(name = "idx_customers_name", columnList = "name"),
-    @Index(name = "idx_customers_deleted_at", columnList = "deleted_at")
+    @Index(name = "idx_customers_deleted_at", columnList = "deleted_at"),
 })
 @Data
 @NoArgsConstructor
@@ -43,6 +43,12 @@ public class Customer {
 
     @Column(name = "profile_picture", length = 500)
     private String profilePicture;
+
+    @Column(name = "job_title", length = 100)
+    private String jobTitle;
+
+    @Column(name = "location", length = 150)
+    private String location;
 
     @Column(name = "team_id", nullable = false)
     private Long teamId;
