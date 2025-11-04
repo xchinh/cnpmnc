@@ -1,6 +1,5 @@
 package com.example.cnpmnc.dto.response;
 
-import com.example.cnpmnc.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
