@@ -1,9 +1,10 @@
-package com.example.cnpmnc.service;
+package com.example.cnpmnc.services.impl;
 
-import com.example.cnpmnc.dto.CustomerRequest;
-import com.example.cnpmnc.dto.CustomerResponse;
+import com.example.cnpmnc.dto.request.customer.CustomerRequest;
+import com.example.cnpmnc.dto.response.customer.CustomerResponse;
 import com.example.cnpmnc.entity.Customer;
 import com.example.cnpmnc.repository.CustomerRepository;
+import com.example.cnpmnc.services.ICustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
     private final CustomerRepository customerRepository;
 

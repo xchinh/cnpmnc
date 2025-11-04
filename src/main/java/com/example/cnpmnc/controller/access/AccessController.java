@@ -3,9 +3,10 @@ package com.example.cnpmnc.controller.access;
 import com.example.cnpmnc.dto.request.user.LoginRequest;
 import com.example.cnpmnc.dto.request.user.RegisterRequest;
 import com.example.cnpmnc.dto.response.ApiResponse;
-import com.example.cnpmnc.dto.response.access.LoginResponse;
-import com.example.cnpmnc.exception.BadRequestException;
 import com.example.cnpmnc.services.impl.AccessService;
+import com.example.cnpmnc.utils.AuthUtils;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth/")
+@Tag(name="Authentication", description="Authentication Management APIs")
 public class AccessController {
     @Autowired
     private AccessService accessService;
@@ -45,13 +47,18 @@ public class AccessController {
 
     @PostMapping("logout")
     public ApiResponse<?> logout() {
-//        if(authHeader == null || !authHeader.startsWith("Bearer")) {
-//            throw new BadRequestException("Invalid request");
-//        }
+        Long userId = AuthUtils.getCurrentUserId();
+        String email = AuthUtils.getCurrentUserEmail();
+        System.out.println("Logout userId=" + userId + ", email=" + email);
+
         return ApiResponse.builder()
                 .status(HttpStatus.OK)
                 .message("Logout successful")
                 .code("1001")
+                .metadata(Map.of(
+                        "userId", userId,
+                        "email", email
+                ))
                 .build();
     }
 

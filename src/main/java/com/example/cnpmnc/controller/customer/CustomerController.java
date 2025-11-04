@@ -1,9 +1,10 @@
-package com.example.cnpmnc.controller;
+package com.example.cnpmnc.controller.customer;
 
 import com.example.cnpmnc.dto.ApiResponse;
-import com.example.cnpmnc.dto.CustomerRequest;
-import com.example.cnpmnc.dto.CustomerResponse;
-import com.example.cnpmnc.service.CustomerService;
+import com.example.cnpmnc.dto.request.customer.CustomerRequest;
+import com.example.cnpmnc.dto.response.customer.CustomerResponse;
+import com.example.cnpmnc.services.impl.CustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,12 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
 @RequiredArgsConstructor
+@Tag(name="Customer", description="Customer Management APIs")
 public class CustomerController {
 
     private final CustomerService customerService;

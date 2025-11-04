@@ -1,8 +1,9 @@
 package com.example.cnpmnc.controller;
 
-import com.example.cnpmnc.dto.CustomerRequest;
-import com.example.cnpmnc.dto.CustomerResponse;
-import com.example.cnpmnc.service.CustomerService;
+import com.example.cnpmnc.controller.customer.CustomerController;
+import com.example.cnpmnc.dto.request.customer.CustomerRequest;
+import com.example.cnpmnc.dto.response.customer.CustomerResponse;
+import com.example.cnpmnc.services.impl.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

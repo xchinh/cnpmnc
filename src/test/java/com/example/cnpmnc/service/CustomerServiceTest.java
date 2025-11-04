@@ -1,10 +1,11 @@
 package com.example.cnpmnc.service;
 
 
-import com.example.cnpmnc.dto.CustomerRequest;
-import com.example.cnpmnc.dto.CustomerResponse;
+import com.example.cnpmnc.dto.request.customer.CustomerRequest;
+import com.example.cnpmnc.dto.response.customer.CustomerResponse;
 import com.example.cnpmnc.entity.Customer;
 import com.example.cnpmnc.repository.CustomerRepository;
+import com.example.cnpmnc.services.impl.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

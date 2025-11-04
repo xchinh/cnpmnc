@@ -1,4 +1,4 @@
-package com.example.cnpmnc.dto;
+package com.example.cnpmnc.dto.response.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

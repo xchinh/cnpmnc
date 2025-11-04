@@ -33,6 +33,10 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+    try-it-out-enabled: true
   packages-to-scan: com.example.cnpmnc.controller
+  paths-to-match:
+    - /**
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+  show-actuator: true

@@ -1,6 +1,5 @@
 package com.example.cnpmnc.services.impl;
 
-import com.example.cnpmnc.enums.UserRole;
 import com.example.cnpmnc.services.IJwtService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
