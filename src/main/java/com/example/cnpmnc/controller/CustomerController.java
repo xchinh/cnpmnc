@@ -4,6 +4,7 @@ import com.example.cnpmnc.dto.ApiResponse;
 import com.example.cnpmnc.dto.CustomerRequest;
 import com.example.cnpmnc.dto.CustomerResponse;
 import com.example.cnpmnc.service.CustomerService;
+import com.example.cnpmnc.services.ICustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerService customerService;
+    private final ICustomerService customerService;
 
     /**
      * GET /api/customers
