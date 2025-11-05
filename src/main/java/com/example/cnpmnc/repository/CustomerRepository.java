@@ -19,8 +19,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByTeamIdAndDeletedAtIsNull(Long teamId);
 
     @Query("SELECT c FROM Customer c WHERE c.deletedAt IS NULL " +
-            "AND (LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(c.company) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    List<Customer> searchByKeyword(@Param("keyword") String keyword);
+       "AND (LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+       "OR LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+       "OR LOWER(c.company) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<Customer> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+    
+    Page<Customer> findByLocationContainingIgnoreCaseAndDeletedAtIsNull(String location, Pageable pageable);
 }

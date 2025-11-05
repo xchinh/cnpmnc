@@ -16,7 +16,7 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 -- =============================================================================
 -- 1. USERS TABLE (20 records)
 -- =============================================================================
-INSERT INTO users (email, password_hash, name, role, is_active, created_at, updated_at, deleted_at) VALUES
+INSERT INTO users (email, password_hash, username, role, is_active, created_at, updated_at, deleted_at) VALUES
 ('admin@crm.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Nguyễn Văn Admin', 'ADMIN', true, NOW() - INTERVAL '180 days', NOW() - INTERVAL '10 days', NULL),
 ('manager1@crm.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Trần Thị Manager 1', 'MANAGER', true, NOW() - INTERVAL '170 days', NOW() - INTERVAL '5 days', NULL),
 ('manager2@crm.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Lê Văn Manager 2', 'MANAGER', true, NOW() - INTERVAL '160 days', NOW() - INTERVAL '3 days', NULL),
@@ -91,28 +91,27 @@ INSERT INTO team_members (team_id, user_id, team_role, joined_at, updated_at) VA
 -- =============================================================================
 -- 4. CUSTOMERS TABLE (20 records)
 -- =============================================================================
-INSERT INTO customers (name, email, phone, company, notes, profile_picture, team_id, created_by, created_at, updated_at, deleted_at, version) VALUES
-('Nguyễn Văn A', 'nguyenvana@techcorp.vn', '0901234567', 'TechCorp Vietnam', 'Khách hàng tiềm năng, quan tâm đến giải pháp Enterprise', NULL, 1, 4, NOW() - INTERVAL '120 days', NOW() - INTERVAL '2 days', NULL, 0),
-('Trần Thị B', 'tranthib@innovate.com.vn', '0902345678', 'Innovate Solutions', 'Đã mua gói Basic, đang cân nhắc nâng cấp', NULL, 1, 4, NOW() - INTERVAL '110 days', NOW() - INTERVAL '5 days', NULL, 0),
-('Lê Văn C', 'levanc@smarttech.vn', '0903456789', 'SmartTech JSC', 'Khách hàng VIP, cần chăm sóc đặc biệt', NULL, 2, 5, NOW() - INTERVAL '100 days', NOW() - INTERVAL '1 day', NULL, 0),
-('Phạm Thị D', 'phamthid@digitalvn.com', '0904567890', 'Digital Vietnam', 'Khách hàng mới, trial period', NULL, 2, 5, NOW() - INTERVAL '90 days', NOW(), NULL, 0),
-('Hoàng Văn E', 'hoangvane@futuresoft.vn', '0905678901', 'FutureSoft Co.', 'Đã kí hợp đồng 1 năm', NULL, 3, 6, NOW() - INTERVAL '85 days', NOW(), NULL, 0),
-('Đỗ Thị F', 'dothif@cloudnet.vn', '0906789012', 'CloudNet Systems', 'Cần hỗ trợ kỹ thuật thường xuyên', NULL, 3, 6, NOW() - INTERVAL '80 days', NOW(), NULL, 0),
-('Vũ Văn G', 'vuvang@bizcom.vn', '0907890123', 'BizCom Vietnam', 'Khách hàng từ referral', NULL, 1, 12, NOW() - INTERVAL '75 days', NOW(), NULL, 0),
-('Bùi Thị H', 'buithih@enterprise.com.vn', '0908901234', 'Enterprise Plus', 'Enterprise customer - high value', NULL, 7, 4, NOW() - INTERVAL '70 days', NOW(), NULL, 0),
-('Đặng Văn I', 'dangvani@retailpro.vn', '0909012345', 'RetailPro Vietnam', 'Khách hàng bán lẻ', NULL, 9, 6, NOW() - INTERVAL '65 days', NOW(), NULL, 0),
-('Dương Thị K', 'duongthik@logistics.vn', '0900123456', 'Vietnam Logistics', 'Đang đàm phán hợp đồng mới', NULL, 2, 13, NOW() - INTERVAL '60 days', NOW(), NULL, 0),
-('Lý Văn L', 'lyvanl@manufacturing.vn', '0911234567', 'Manufacturing Co.', 'Khách hàng sản xuất lớn', NULL, 7, 5, NOW() - INTERVAL '55 days', NOW(), NULL, 0),
-('Mai Thị M', 'maithim@education.vn', '0912345678', 'Education Hub', 'Khách hàng giáo dục - special discount', NULL, 8, 13, NOW() - INTERVAL '50 days', NOW(), NULL, 0),
-('Phan Văn N', 'phanvann@healthcare.vn', '0913456789', 'Healthcare Solutions', 'Y tế - yêu cầu bảo mật cao', NULL, 4, 15, NOW() - INTERVAL '45 days', NOW(), NULL, 0),
-('Cao Thị O', 'caothio@finance.vn', '0914567890', 'Finance Corp', 'Tài chính - compliance requirements', NULL, 7, 4, NOW() - INTERVAL '40 days', NOW(), NULL, 0),
-('Võ Văn P', 'vovanp@travel.vn', '0915678901', 'Travel Vietnam', 'Du lịch - seasonal customer', NULL, 2, 5, NOW() - INTERVAL '35 days', NOW(), NULL, 0),
-('Tô Thị Q', 'tothiq@food.vn', '0916789012', 'Food & Beverage JSC', 'F&B - nhiều chi nhánh', NULL, 8, 14, NOW() - INTERVAL '30 days', NOW(), NULL, 0),
-('Hồ Văn R', 'hovanr@realestate.vn', '0917890123', 'Real Estate Group', 'Bất động sản - customer lớn', NULL, 7, 12, NOW() - INTERVAL '25 days', NOW(), NULL, 0),
-('Đinh Thị S', 'dinhthis@media.vn', '0918901234', 'Media Network', 'Truyền thông - content focus', NULL, 5, 17, NOW() - INTERVAL '20 days', NOW(), NULL, 0),
-('Tạ Văn T', 'tavant@agriculture.vn', '0919012345', 'Agriculture Tech', 'Nông nghiệp công nghệ cao', NULL, 8, 14, NOW() - INTERVAL '15 days', NOW(), NULL, 0),
-('Lương Thị U', 'luongthiu@ecommerce.vn', '0920123456', 'E-Commerce Hub', 'Thương mại điện tử', NULL, 2, 13, NOW() - INTERVAL '10 days', NOW(), NULL, 0);
-
+INSERT INTO customers (name, email, phone, company, notes, profile_picture, job_title, location, team_id, created_by, created_at, updated_at, deleted_at, version) VALUES
+('Nguyễn Văn A', 'nguyenvana@techcorp.vn', '0901234567', 'TechCorp Vietnam', 'Khách hàng tiềm năng, quan tâm đến giải pháp Enterprise', NULL, 'CTO', 'Hà Nội', 1, 4, NOW() - INTERVAL '120 days', NOW() - INTERVAL '2 days', NULL, 0),
+('Trần Thị B', 'tranthib@innovate.com.vn', '0902345678', 'Innovate Solutions', 'Đã mua gói Basic, đang cân nhắc nâng cấp', NULL, 'Operations Manager', 'TP.HCM', 1, 4, NOW() - INTERVAL '110 days', NOW() - INTERVAL '5 days', NULL, 0),
+('Lê Văn C', 'levanc@smarttech.vn', '0903456789', 'SmartTech JSC', 'Khách hàng VIP, cần chăm sóc đặc biệt', NULL, 'CEO', 'Đà Nẵng', 2, 5, NOW() - INTERVAL '100 days', NOW() - INTERVAL '1 day', NULL, 0),
+('Phạm Thị D', 'phamthid@digitalvn.com', '0904567890', 'Digital Vietnam', 'Khách hàng mới, trial period', NULL, 'Product Owner', 'Cần Thơ', 2, 5, NOW() - INTERVAL '90 days', NOW(), NULL, 0),
+('Hoàng Văn E', 'hoangvane@futuresoft.vn', '0905678901', 'FutureSoft Co.', 'Đã kí hợp đồng 1 năm', NULL, 'IT Manager', 'Hải Phòng', 3, 6, NOW() - INTERVAL '85 days', NOW(), NULL, 0),
+('Đỗ Thị F', 'dothif@cloudnet.vn', '0906789012', 'CloudNet Systems', 'Cần hỗ trợ kỹ thuật thường xuyên', NULL, 'Technical Lead', 'Quảng Ninh', 3, 6, NOW() - INTERVAL '80 days', NOW(), NULL, 0),
+('Vũ Văn G', 'vuvang@bizcom.vn', '0907890123', 'BizCom Vietnam', 'Khách hàng từ referral', NULL, 'Sales Director', 'Bắc Ninh', 1, 12, NOW() - INTERVAL '75 days', NOW(), NULL, 0),
+('Bùi Thị H', 'buithih@enterprise.com.vn', '0908901234', 'Enterprise Plus', 'Enterprise customer - high value', NULL, 'Procurement Lead', 'Hà Nội', 7, 4, NOW() - INTERVAL '70 days', NOW(), NULL, 0),
+('Đặng Văn I', 'dangvani@retailpro.vn', '0909012345', 'RetailPro Vietnam', 'Khách hàng bán lẻ', NULL, 'Retail Manager', 'TP.HCM', 9, 6, NOW() - INTERVAL '65 days', NOW(), NULL, 0),
+('Dương Thị K', 'duongthik@logistics.vn', '0900123456', 'Vietnam Logistics', 'Đang đàm phán hợp đồng mới', NULL, 'Logistics Director', 'Hải Phòng', 2, 13, NOW() - INTERVAL '60 days', NOW(), NULL, 0),
+('Lý Văn L', 'lyvanl@manufacturing.vn', '0911234567', 'Manufacturing Co.', 'Khách hàng sản xuất lớn', NULL, 'Plant Manager', 'Bình Dương', 7, 5, NOW() - INTERVAL '55 days', NOW(), NULL, 0),
+('Mai Thị M', 'maithim@education.vn', '0912345678', 'Education Hub', 'Khách hàng giáo dục - special discount', NULL, 'Dean Assistant', 'Đà Nẵng', 8, 13, NOW() - INTERVAL '50 days', NOW(), NULL, 0),
+('Phan Văn N', 'phanvann@healthcare.vn', '0913456789', 'Healthcare Solutions', 'Y tế - yêu cầu bảo mật cao', NULL, 'Compliance Officer', 'TP.HCM', 4, 15, NOW() - INTERVAL '45 days', NOW(), NULL, 0),
+('Cao Thị O', 'caothio@finance.vn', '0914567890', 'Finance Corp', 'Tài chính - compliance requirements', NULL, 'Finance Manager', 'Hà Nội', 7, 4, NOW() - INTERVAL '40 days', NOW(), NULL, 0),
+('Võ Văn P', 'vovanp@travel.vn', '0915678901', 'Travel Vietnam', 'Du lịch - seasonal customer', NULL, 'Operations Lead', 'Nha Trang', 2, 5, NOW() - INTERVAL '35 days', NOW(), NULL, 0),
+('Tô Thị Q', 'tothiq@food.vn', '0916789012', 'Food & Beverage JSC', 'F&B - nhiều chi nhánh', NULL, 'Supply Chain Lead', 'Cần Thơ', 8, 14, NOW() - INTERVAL '30 days', NOW(), NULL, 0),
+('Hồ Văn R', 'hovanr@realestate.vn', '0917890123', 'Real Estate Group', 'Bất động sản - customer lớn', NULL, 'Project Director', 'Hà Nội', 7, 12, NOW() - INTERVAL '25 days', NOW(), NULL, 0),
+('Đinh Thị S', 'dinhthis@media.vn', '0918901234', 'Media Network', 'Truyền thông - content focus', NULL, 'Marketing Lead', 'TP.HCM', 5, 17, NOW() - INTERVAL '20 days', NOW(), NULL, 0),
+('Tạ Văn T', 'tavant@agriculture.vn', '0919012345', 'Agriculture Tech', 'Nông nghiệp công nghệ cao', NULL, 'R&D Manager', 'Lâm Đồng', 8, 14, NOW() - INTERVAL '15 days', NOW(), NULL, 0),
+('Lương Thị U', 'luongthiu@ecommerce.vn', '0920123456', 'E-Commerce Hub', 'Thương mại điện tử', NULL, 'E-commerce Lead', 'Đà Nẵng', 2, 13, NOW() - INTERVAL '10 days', NOW(), NULL, 0);
 -- =============================================================================
 -- 5. CUSTOMER_ASSIGNMENTS TABLE (20 records)
 -- =============================================================================

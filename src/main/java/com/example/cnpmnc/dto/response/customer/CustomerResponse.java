@@ -23,4 +23,6 @@ public class CustomerResponse {
     private Long createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String jobTitle;
+    private String location;
 }

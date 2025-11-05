@@ -6,6 +6,8 @@ import com.example.cnpmnc.dto.response.note.NoteResponse;
 import com.example.cnpmnc.services.INoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/customers/{customerId}/notes")
 @RequiredArgsConstructor
+@Tag(name = "Note", description = "Note Management APIs")
 public class NoteController {
 
     private final INoteService noteService;
@@ -26,6 +29,10 @@ public class NoteController {
      * Lấy danh sách ghi chú của khách hàng
      */
     @GetMapping
+    @Operation(
+        summary = "List notes of a customer",
+        description = "Lấy danh sách ghi chú của khách hàng. Tương thích: response theo dạng {data, total}."
+    )
     public ResponseEntity<ApiResponse<Map<String, Object>>> getNotesByCustomerId(
             @PathVariable Long customerId) {
         try {
@@ -53,6 +60,10 @@ public class NoteController {
      * Tạo ghi chú mới
      */
     @PostMapping
+    @Operation(
+        summary = "Create a note",
+        description = "Tạo ghi chú mới cho khách hàng."
+    )
     public ResponseEntity<ApiResponse<NoteResponse>> createNote(
             @PathVariable Long customerId,
             @Valid @RequestBody NoteRequest request) {
@@ -83,6 +94,10 @@ public class NoteController {
      * Cập nhật ghi chú
      */
     @PutMapping("/{id}")
+    @Operation(
+        summary = "Update a note",
+        description = "Cập nhật nội dung ghi chú của khách hàng."
+    )
     public ResponseEntity<ApiResponse<NoteResponse>> updateNote(
             @PathVariable Long customerId,
             @PathVariable Long id,
@@ -115,6 +130,10 @@ public class NoteController {
      * Xóa ghi chú
      */
     @DeleteMapping("/{id}")
+    @Operation(
+        summary = "Delete a note",
+        description = "Xóa ghi chú của khách hàng."
+    )
     public ResponseEntity<ApiResponse<Void>> deleteNote(
             @PathVariable Long customerId,
             @PathVariable Long id) {

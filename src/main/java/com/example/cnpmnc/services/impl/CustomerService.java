@@ -21,8 +21,12 @@ public class CustomerService implements ICustomerService {
     private final CustomerRepository customerRepository;
 
     // Lấy tất cả khách hàng
-    public Page<CustomerResponse> getAllCustomers(Pageable pageable) {
-        return customerRepository.findByDeletedAtIsNull(pageable)
+    public Page<CustomerResponse> getAllCustomers(Pageable pageable, String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return customerRepository.findByDeletedAtIsNull(pageable)
+                    .map(this::mapToResponse);
+        }
+        return customerRepository.searchByKeyword(keyword.trim(), pageable)
                 .map(this::mapToResponse);
     }
 
@@ -97,13 +101,15 @@ public class CustomerService implements ICustomerService {
         customerRepository.save(customer);
     }
 
-    // Tìm kiếm khách hàng
-    public List<CustomerResponse> searchCustomers(String keyword) {
-        return customerRepository.searchByKeyword(keyword)
-                .stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public Page<CustomerResponse> filterCustomersByLocation(String location, Pageable pageable) {
+        if (location == null || location.trim().isEmpty()) {
+            throw new RuntimeException("Tham số 'location' là bắt buộc");
+        }
+        return customerRepository
+                .findByLocationContainingIgnoreCaseAndDeletedAtIsNull(location.trim(), pageable)
+                .map(this::mapToResponse);
     }
+
 
     // Map Entity to Response DTO
     private CustomerResponse mapToResponse(Customer customer) {
@@ -119,6 +125,8 @@ public class CustomerService implements ICustomerService {
                 .createdBy(customer.getCreatedBy())
                 .createdAt(customer.getCreatedAt())
                 .updatedAt(customer.getUpdatedAt())
+                .jobTitle(customer.getJobTitle())
+                .location(customer.getLocation())
                 .build();
     }
 }
