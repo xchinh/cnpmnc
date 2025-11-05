@@ -6,6 +6,7 @@ import com.example.cnpmnc.dto.response.ApiResponse;
 import com.example.cnpmnc.services.impl.AccessService;
 import com.example.cnpmnc.utils.AuthUtils;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/auth/")
 @Tag(name="Authentication", description="Authentication Management APIs")
 public class AccessController {
@@ -49,7 +51,6 @@ public class AccessController {
     public ApiResponse<?> logout() {
         Long userId = AuthUtils.getCurrentUserId();
         String email = AuthUtils.getCurrentUserEmail();
-        System.out.println("Logout userId=" + userId + ", email=" + email);
 
         return ApiResponse.builder()
                 .status(HttpStatus.OK)

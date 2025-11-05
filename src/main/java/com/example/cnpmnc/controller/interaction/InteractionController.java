@@ -9,6 +9,7 @@ import com.example.cnpmnc.enums.InteractionType;
 import com.example.cnpmnc.services.IInteractionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/customers/{customerId}/interactions")
 @RequiredArgsConstructor
 @Tag(name = "Interaction", description = "Customer Interaction Management APIs")

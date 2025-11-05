@@ -4,6 +4,7 @@ import com.example.cnpmnc.dto.ApiResponse;
 import com.example.cnpmnc.dto.request.note.NoteRequest;
 import com.example.cnpmnc.dto.response.note.NoteResponse;
 import com.example.cnpmnc.services.INoteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/customers/{customerId}/notes")
 @RequiredArgsConstructor
 public class NoteController {
