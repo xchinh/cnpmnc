@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ICustomerService {
-    Page<CustomerResponse> getAllCustomers(Pageable pageable);
+    Page<CustomerResponse> getAllCustomers(Pageable pageable, String keyword);
     CustomerResponse getCustomerById(Long id);
     CustomerResponse createCustomer(CustomerRequest request, Long createdBy);
     CustomerResponse updateCustomer(Long id, CustomerRequest request);
     void deleteCustomer(Long id);
-    List<CustomerResponse> searchCustomers(String keyword);
+    Page<CustomerResponse> filterCustomersByLocation(String location, Pageable pageable);
 }
