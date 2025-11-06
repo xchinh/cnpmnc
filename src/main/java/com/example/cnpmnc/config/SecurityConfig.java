@@ -66,26 +66,27 @@ public class SecurityConfig {
 
     private final CorsFilter corsFilter; // Inject CorsFilter
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth ->
-                        auth
-                                // Cho phép OPTIONS (preflight requests)
-                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                // Cho phép auth endpoints
-                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                                // Cho phép Swagger UI
-                                .requestMatchers("/swagger-ui/**", "/api-docs/**", "/swagger-ui.html").permitAll()
-                                // Tất cả request khác cần authentication
-                                .anyRequest().authenticated()
+   @Bean
+   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+       httpSecurity
+               .csrf(AbstractHttpConfigurer::disable)
+               .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+               .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
+                    .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/api-docs/**",
+                                "/v3/api-docs/**"
+                    ).permitAll()
+                    .anyRequest().authenticated()
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
-        return httpSecurity.build();
-    }
+               .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+               //.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
+       return httpSecurity.build();
+   }
+
 
     @Bean
     public JwtDecoder jwtDecoder() {
