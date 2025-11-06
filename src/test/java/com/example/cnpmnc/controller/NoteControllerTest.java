@@ -3,8 +3,6 @@
 //import com.example.cnpmnc.controller.note.NoteController;
 //import com.example.cnpmnc.dto.request.note.NoteRequest;
 //import com.example.cnpmnc.dto.response.note.NoteResponse;
-//import com.example.cnpmnc.middleware.JwtVerifyFilter;
-//import com.example.cnpmnc.services.IJwtService;
 //import com.example.cnpmnc.services.INoteService;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +10,7 @@
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+//import org.springframework.boot.test.mock.mockito.MockBean;
 //import org.springframework.http.MediaType;
 //import org.springframework.test.web.servlet.MockMvc;
 //
@@ -35,22 +34,10 @@
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 //import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//import org.springframework.security.oauth2.jwt.JwtDecoder;
-//import org.springframework.web.filter.CorsFilter;
-//import org.springframework.boot.test.mock.mockito.MockBean;
 //
 //@WebMvcTest(NoteController.class)
 //class NoteControllerTest {
 //
-//    @MockBean
-//    private JwtVerifyFilter jwtVerifyFilter;
-//    @MockBean
-//    private IJwtService jwtService;
-//    @MockBean
-//    private JwtDecoder jwtDecoder;
-//
-//    @MockBean
-//    private CorsFilter corsFilter;
 //    @Autowired
 //    private MockMvc mockMvc;
 //
@@ -59,7 +46,6 @@
 //
 //    @MockBean
 //    private INoteService noteService;
-//
 //
 //    private NoteResponse testNoteResponse;
 //    private NoteRequest testNoteRequest;
@@ -88,7 +74,7 @@
 //    // ==========================================
 //
 //    @Test
-//    @DisplayName("GET /customers/{customerId}/notes - Lấy danh sách ghi chú thành công")
+//    @DisplayName("GET /api/customers/{customerId}/notes - Lấy danh sách ghi chú thành công")
 //    void testGetNotesByCustomerId_Success() throws Exception {
 //        // Given
 //        List<NoteResponse> notes = Arrays.asList(
