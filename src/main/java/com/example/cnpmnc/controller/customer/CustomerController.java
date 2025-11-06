@@ -4,6 +4,7 @@ import com.example.cnpmnc.dto.ApiResponse;
 import com.example.cnpmnc.dto.request.customer.CustomerRequest;
 import com.example.cnpmnc.dto.response.customer.CustomerResponse;
 import com.example.cnpmnc.services.impl.CustomerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 @Tag(name="Customer", description="Customer Management APIs")
 public class CustomerController {

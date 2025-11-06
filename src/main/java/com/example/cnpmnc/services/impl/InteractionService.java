@@ -34,10 +34,14 @@ public class InteractionService implements IInteractionService {
             InteractionType type, 
             LocalDateTime startDate, 
             LocalDateTime endDate) {
-        
+
         List<Interaction> interactions = interactionRepository.findByCustomerIdWithFilters(
                 customerId, type, startDate, endDate);
-        
+
+        System.out.println(customerId);
+        System.out.println(type);
+        System.out.println(startDate);
+        System.out.println(endDate);
         Long total = interactionRepository.countByCustomerIdWithFilters(
                 customerId, type, startDate, endDate);
         

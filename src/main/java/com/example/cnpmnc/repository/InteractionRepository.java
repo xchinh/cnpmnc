@@ -13,30 +13,39 @@ import java.util.Optional;
 
 @Repository
 public interface InteractionRepository extends JpaRepository<Interaction, Long> {
-    
-    @Query("SELECT i FROM Interaction i WHERE i.customerId = :customerId AND i.deletedAt IS NULL " +
-           "AND (:type IS NULL OR i.type = :type) " +
-           "AND (:startDate IS NULL OR i.interactionDate >= :startDate) " +
-           "AND (:endDate IS NULL OR i.interactionDate <= :endDate) " +
-           "ORDER BY i.interactionDate DESC")
+
+    @Query("""
+        SELECT i FROM Interaction i
+        WHERE i.customerId = :customerId
+          AND i.deletedAt IS NULL
+          AND (COALESCE(:type, i.type) = i.type)
+          AND (COALESCE(:startDate, i.interactionDate) <= i.interactionDate)
+          AND (COALESCE(:endDate, i.interactionDate) >= i.interactionDate)
+        ORDER BY i.interactionDate DESC
+    """)
     List<Interaction> findByCustomerIdWithFilters(
             @Param("customerId") Long customerId,
             @Param("type") InteractionType type,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
-    
-    @Query("SELECT COUNT(i) FROM Interaction i WHERE i.customerId = :customerId AND i.deletedAt IS NULL " +
-           "AND (:type IS NULL OR i.type = :type) " +
-           "AND (:startDate IS NULL OR i.interactionDate >= :startDate) " +
-           "AND (:endDate IS NULL OR i.interactionDate <= :endDate)")
+
+    @Query("""
+        SELECT COUNT(i) FROM Interaction i
+        WHERE i.customerId = :customerId
+          AND i.deletedAt IS NULL
+          AND (COALESCE(:type, i.type) = i.type)
+          AND (COALESCE(:startDate, i.interactionDate) <= i.interactionDate)
+          AND (COALESCE(:endDate, i.interactionDate) >= i.interactionDate)
+    """)
     Long countByCustomerIdWithFilters(
             @Param("customerId") Long customerId,
             @Param("type") InteractionType type,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
-    
+
+
     Optional<Interaction> findByIdAndCustomerIdAndDeletedAtIsNull(Long id, Long customerId);
     
     List<Interaction> findByCustomerIdAndDeletedAtIsNullOrderByInteractionDateDesc(Long customerId);

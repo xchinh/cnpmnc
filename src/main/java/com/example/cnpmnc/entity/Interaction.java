@@ -34,7 +34,7 @@ public class Interaction {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar", nullable = false)
     private InteractionType type;
 
     @Column(columnDefinition = "TEXT", nullable = false)
