@@ -73,7 +73,7 @@ class CustomerServiceTest {
         when(customerRepository.findByDeletedAtIsNull(pageable)).thenReturn(page);
 
         // When
-        Page<CustomerResponse> result = customerService.getAllCustomers(pageable);
+        Page<CustomerResponse> result = customerService.getAllCustomers(pageable, null);
 
         // Then
         assertThat(result.getContent()).hasSize(1);
@@ -216,130 +216,6 @@ class CustomerServiceTest {
         
         verify(customerRepository, times(1)).findByIdAndDeletedAtIsNull(999L);
         verify(customerRepository, never()).save(any(Customer.class));
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm khách hàng")
-    void testSearchCustomers_Success() {
-        // Given
-        when(customerRepository.searchByKeyword("test"))
-                .thenReturn(Arrays.asList(testCustomer));
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("test");
-
-        // Then
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).isEqualTo("Test Customer");
-        
-        verify(customerRepository, times(1)).searchByKeyword("test");
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm khách hàng theo tên")
-    void testSearchCustomersByName() {
-        // Given
-        Customer customer1 = new Customer();
-        customer1.setId(1L);
-        customer1.setName("Nguyễn Văn A");
-        customer1.setEmail("nguyenvana@example.com");
-        customer1.setCompany("TechCorp");
-        
-        when(customerRepository.searchByKeyword("Nguyễn"))
-                .thenReturn(Arrays.asList(customer1));
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("Nguyễn");
-
-        // Then
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).contains("Nguyễn");
-        verify(customerRepository, times(1)).searchByKeyword("Nguyễn");
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm khách hàng theo email")
-    void testSearchCustomersByEmail() {
-        // Given
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setName("Test User");
-        customer.setEmail("test@techcorp.vn");
-        customer.setCompany("TechCorp");
-        
-        when(customerRepository.searchByKeyword("techcorp.vn"))
-                .thenReturn(Arrays.asList(customer));
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("techcorp.vn");
-
-        // Then
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getEmail()).contains("techcorp.vn");
-        verify(customerRepository, times(1)).searchByKeyword("techcorp.vn");
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm khách hàng theo công ty")
-    void testSearchCustomersByCompany() {
-        // Given
-        Customer customer1 = new Customer();
-        customer1.setId(1L);
-        customer1.setName("User 1");
-        customer1.setCompany("ABC Company");
-        
-        Customer customer2 = new Customer();
-        customer2.setId(2L);
-        customer2.setName("User 2");
-        customer2.setCompany("ABC Corporation");
-        
-        when(customerRepository.searchByKeyword("ABC"))
-                .thenReturn(Arrays.asList(customer1, customer2));
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("ABC");
-
-        // Then
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getCompany()).contains("ABC");
-        assertThat(result.get(1).getCompany()).contains("ABC");
-        verify(customerRepository, times(1)).searchByKeyword("ABC");
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm không có kết quả")
-    void testSearchCustomersNoResults() {
-        // Given
-        when(customerRepository.searchByKeyword("nonexistent"))
-                .thenReturn(Arrays.asList());
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("nonexistent");
-
-        // Then
-        assertThat(result).isEmpty();
-        verify(customerRepository, times(1)).searchByKeyword("nonexistent");
-    }
-
-    @Test
-    @DisplayName("Test tìm kiếm với nhiều kết quả")
-    void testSearchCustomersMultipleResults() {
-        // Given
-        List<Customer> customers = Arrays.asList(
-                createTestCustomer(1L, "Test User 1", "test1@example.com"),
-                createTestCustomer(2L, "Test User 2", "test2@example.com"),
-                createTestCustomer(3L, "Testing User", "testing@example.com")
-        );
-        
-        when(customerRepository.searchByKeyword("test"))
-                .thenReturn(customers);
-
-        // When
-        List<CustomerResponse> result = customerService.searchCustomers("test");
-
-        // Then
-        assertThat(result).hasSize(3);
-        verify(customerRepository, times(1)).searchByKeyword("test");
     }
 
     // Helper method
