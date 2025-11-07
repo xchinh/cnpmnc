@@ -28,9 +28,9 @@ public class CorsConfig {
                 "http://localhost:8080",      // Spring Boot dev
                 "http://127.0.0.1:3000",      // React với 127.0.0.1
                 "http://127.0.0.1:5173",      // Vite với 127.0.0.1
-                "http://127.0.0.1:4200"       // Angular với 127.0.0.1
+                "http://127.0.0.1:4200",       // Angular với 127.0.0.1
                 // Thêm production domain khi deploy
-                // "https://yourdomain.com"
+                "https://cnpmnc.onrender.com"
         ));
 
         // Cho phép tất cả headers
