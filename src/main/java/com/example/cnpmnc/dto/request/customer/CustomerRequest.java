@@ -21,6 +21,10 @@ public class CustomerRequest {
 
     private String company;
 
+    private String location;
+
+    private String jobTitle;
+
     private String notes;
 
     private String profilePicture;
