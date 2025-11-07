@@ -73,7 +73,7 @@ public class SecurityConfig {
                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register").permitAll()
                     .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
