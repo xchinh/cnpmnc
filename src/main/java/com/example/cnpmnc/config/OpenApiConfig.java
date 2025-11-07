@@ -28,7 +28,7 @@ public class OpenApiConfig {
                                 .email("dev@crm.com")))
                 .servers(List.of(
                         new Server().url("http://localhost:8080/api/v1").description("Local Server"),
-                        new Server().url("https://api.crm.com").description("Production Server")
+                        new Server().url("https://cnpmnc.onrender.com/api/v1").description("Production Server")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(new Components().addSecuritySchemes(SECURITY_SCHEME_NAME,

@@ -42,9 +42,9 @@
 
 package com.example.cnpmnc.config;
 
-import jakarta.servlet.Filter;
+import com.example.cnpmnc.middleware.JwtVerifyFilter;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -52,8 +52,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.oauth2.jwt.JwtDecoder;
-//import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
@@ -62,11 +62,11 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-//    @Value("${spring.security.oauth2.resource-server.jwt.secret}")
-//    private String secretKey;
+    @Value("${spring.security.oauth2.resource-server.jwt.secret}")
+    private String secretKey;
 
     private final CorsFilter corsFilter; // Inject CorsFilter
-    private final Filter jwtVerifyFilter;
+    private final JwtVerifyFilter jwtVerifyFilter;
 
     @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -91,11 +91,11 @@ public class SecurityConfig {
    }
 
 
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-//        return NimbusJwtDecoder.withSecretKey(
-//                new javax.crypto.spec.SecretKeySpec(secretKey.getBytes(), "HmacSHA256")
-//        ).build();
-//    }
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withSecretKey(
+                new javax.crypto.spec.SecretKeySpec(secretKey.getBytes(), "HmacSHA256")
+        ).build();
+    }
 }
 

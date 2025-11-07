@@ -11,8 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -53,6 +57,15 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
 
             // ✅ Đính payload lên request
             request.setAttribute("user", payload);
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            payload,
+                            null,
+                            List.of() // authorities nếu có role
+                    );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.debug("User authenticated: userId={}, email={}", 
                      payload.get("id"), payload.get("email"));
