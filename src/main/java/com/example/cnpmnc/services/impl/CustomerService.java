@@ -56,6 +56,8 @@ public class CustomerService implements ICustomerService {
         customer.setProfilePicture(request.getProfilePicture());
         customer.setTeamId(request.getTeamId() != null ? request.getTeamId() : 1L);
         customer.setCreatedBy(createdBy);
+        customer.setLocation(request.getLocation());
+        customer.setJobTitle(request.getJobTitle());
 
         Customer saved = customerRepository.save(customer);
         return mapToResponse(saved);
@@ -83,6 +85,8 @@ public class CustomerService implements ICustomerService {
         customer.setCompany(request.getCompany());
         customer.setNotes(request.getNotes());
         customer.setProfilePicture(request.getProfilePicture());
+        customer.setJobTitle(request.getJobTitle());
+        customer.setLocation(request.getLocation());
         if (request.getTeamId() != null) {
             customer.setTeamId(request.getTeamId());
         }
