@@ -7,7 +7,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class CorsConfig {
@@ -19,18 +18,16 @@ public class CorsConfig {
         // Cho phép credentials (cookies, authorization headers)
         config.setAllowCredentials(true);
 
-        // IMPORTANT: Khi dùng setAllowCredentials(true), phải dùng setAllowedOrigins thay vì setAllowedOriginPatterns
-        // và không thể dùng "*" - phải chỉ định cụ thể từng origin
+        // Chỉ định các origin được phép gọi API
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",      // React dev
                 "http://localhost:5173",      // Vite dev
                 "http://localhost:4200",      // Angular dev
                 "http://localhost:8080",      // Spring Boot dev
-                "http://127.0.0.1:3000",      // React với 127.0.0.1
-                "http://127.0.0.1:5173",      // Vite với 127.0.0.1
-                "http://127.0.0.1:4200",       // Angular với 127.0.0.1
-                // Thêm production domain khi deploy
-                "https://cnpmnc.onrender.com"
+                "http://127.0.0.1:3000",
+                "http://127.0.0.1:5173",
+                "http://127.0.0.1:4200",
+                "https://crm-fe-iota.vercel.app",
         ));
 
         // Cho phép tất cả headers
@@ -41,7 +38,7 @@ public class CorsConfig {
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
         ));
 
-        // Expose headers (để frontend có thể đọc)
+        // Expose headers để FE có thể đọc
         config.setExposedHeaders(Arrays.asList(
                 "Authorization",
                 "Content-Type",
@@ -54,7 +51,6 @@ public class CorsConfig {
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Áp dụng cho tất cả endpoints
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
