@@ -4,6 +4,7 @@ import com.example.cnpmnc.dto.ApiResponse;
 import com.example.cnpmnc.dto.request.note.NoteRequest;
 import com.example.cnpmnc.dto.response.note.NoteResponse;
 import com.example.cnpmnc.services.INoteService;
+import com.example.cnpmnc.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,11 @@ public class NoteController {
             @PathVariable Long customerId,
             @Valid @RequestBody NoteRequest request) {
         try {
-            Long currentUserId = 1L; // Tạm thời hardcode - sẽ lấy từ JWT token sau
+            Long currentUserId = AuthUtils.getCurrentUserId();
+            if (currentUserId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(ApiResponse.error("User not authenticated"));
+            }
 
             NoteResponse note = noteService.createNote(customerId, request, currentUserId);
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -105,7 +110,11 @@ public class NoteController {
             @PathVariable Long id,
             @Valid @RequestBody NoteRequest request) {
         try {
-            Long currentUserId = 1L; // Tạm thời hardcode - sẽ lấy từ JWT token sau
+            Long currentUserId = AuthUtils.getCurrentUserId();
+            if (currentUserId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(ApiResponse.error("User not authenticated"));
+            }
 
             NoteResponse note = noteService.updateNote(customerId, id, request, currentUserId);
             return ResponseEntity.ok(
@@ -140,7 +149,11 @@ public class NoteController {
             @PathVariable Long customerId,
             @PathVariable Long id) {
         try {
-            Long currentUserId = 1L; // Tạm thời hardcode - sẽ lấy từ JWT token sau
+            Long currentUserId = AuthUtils.getCurrentUserId();
+            if (currentUserId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(ApiResponse.error("User not authenticated"));
+            }
 
             noteService.deleteNote(customerId, id, currentUserId);
             return ResponseEntity.ok(
