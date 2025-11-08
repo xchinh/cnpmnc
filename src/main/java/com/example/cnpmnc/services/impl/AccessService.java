@@ -1,23 +1,28 @@
 package com.example.cnpmnc.services.impl;
 
 import com.example.cnpmnc.dto.request.user.LoginRequest;
+import com.example.cnpmnc.dto.request.user.RefreshRequest;
 import com.example.cnpmnc.dto.request.user.RegisterRequest;
 import com.example.cnpmnc.dto.response.access.LoginResponse;
+import com.example.cnpmnc.dto.response.access.RefreshTokenResponse;
 import com.example.cnpmnc.dto.response.access.RegisterResponse;
 import com.example.cnpmnc.entity.User;
 import com.example.cnpmnc.exception.*;
 import com.example.cnpmnc.mapper.UserMapper;
 import com.example.cnpmnc.repository.UserRepository;
 import com.example.cnpmnc.services.IAccessService;
+import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -66,5 +71,22 @@ public class AccessService implements IAccessService {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
 
         return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public RefreshTokenResponse refresh(RefreshRequest request) {
+        JWTClaimsSet claimsSet = jwtService.validateToken(request.getRefreshToken());
+        if (claimsSet == null) {
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        // Safely extract payload
+        Map<String, Object> payload = (Map<String, Object>) claimsSet.getClaim("payload");
+
+        // Generate new access token using existing payload
+        String accessToken = jwtService.generateAccessToken(Map.of("payload", payload));
+        return RefreshTokenResponse.builder()
+                .accessToken(accessToken)
+                .build();
     }
 }

@@ -76,7 +76,7 @@ public class SecurityConfig {
                .addFilterBefore(jwtVerifyFilter, UsernamePasswordAuthenticationFilter.class)
                .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register", "/auth/refresh-token").permitAll()
                     .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
